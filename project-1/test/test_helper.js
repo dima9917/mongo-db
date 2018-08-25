@@ -1,15 +1,21 @@
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://localhost/users_test");
-mongoose.connection
-  .once("open", () => console.log("Good to go!"))
-  .on("error", error => {
-    console.warn("Warning", error);
-  });
+mongoose.Promise = global.Promise;
 
-beforeEach((done) => {
-    mongoose.connection.collections.users.drop(()=>{
-        //ready to run next test
-        done();
+//runs before entires test suite
+before(done => {
+  mongoose.connect("mongodb://localhost:27017/users_test", { useNewUrlParser: true });
+  mongoose.connection
+    .once("open", () => console.log("Connected to database!"))
+    .on("error", error => {
+      console.warn("Warning", error);
     });
+  done();
+});
+
+beforeEach(done => {
+  mongoose.connection.collections.users.drop(() => {
+    //ready to run next test
+    done();
+  });
 });

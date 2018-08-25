@@ -1,7 +1,7 @@
 const assert = require("assert");
 const User = require("../src/user");
 
-describe("Creating records", () => {
+describe("Test Suite: Creating records", () => {
   it("saves a user", (done) => {
     const joe = new User({
       name: "Joe"
